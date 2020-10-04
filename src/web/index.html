@@ -1,0 +1,69 @@
+<div class="zg-body">
+    <div class="toggle-container">
+        <zing-grid
+            id="main"
+            class="active"
+            src="/-/pacman/api"
+            gridlines="both"
+            layout="row"
+            no-data="There are no packages to display."
+            pager="true"
+            page-size-options="5,10,15,25,50,100"
+            page-size="25"
+            pager-type="button-arrows"
+            pager-position="both"
+            search="true"
+            sort="true"
+            theme="android"
+            layout-controls="disabled"
+            viewport-stop="true"
+        >
+            <zg-caption>
+                <button class="pacman close" onClick="location.reload()">x</button>
+                <span>Package manager</span>
+            </zg-caption>
+            <zg-colgroup>
+                <zg-column type="text" index="name" align="left" header="Name" sort-asc="true" width="fitheader"></zg-column>
+                <zg-column type="text" index="version" align="left" header="Version" width="fitheader"></zg-column>
+            </zg-colgroup>
+        </zing-grid>
+        <zing-grid
+            id="child"
+            gridlines="both"
+            layout="row"
+            sort="true"
+            theme="android"
+            layout-controls="disabled"
+            viewport-stop="true"
+            editor="modal"
+            editor-controls="false"
+        >
+            <zg-caption>
+                <button onClick="document.querySelectorAll('zing-grid').forEach(grid => grid.classList.toggle('active'));"><< Back</button>
+                <span id="childCaptionText">Default Text</span>
+                <div slot="tool">
+                    <zg-button action="custom" slot="button" class="custom-icon icon-remove-tag"></zg-button>
+                    <zg-button action="custom" slot="button" class="custom-icon icon-remove-version"></zg-button>
+                </div>
+            </zg-caption>
+            <zg-data>
+                 <zg-param name="deleteOptions" value='{"exclude": true}'></zg-param>
+                 <zg-param name="updateRowOptions" value='{"exclude": true}'></zg-param>
+            </zg-data>
+            <zg-colgroup>
+                <zg-column index="version" width="150px" editor="false" sorter="versionSorter" sort-desc="true"></zg-column>
+                <zg-column type="tag" index="tags" width="stretch" editor="false"></zg-column>
+                <zg-column type="name" index="tags" header=" " editor="modal" sort="disabled" cell-tooltip-text="Edit Tags" cell-tooltip-type="system" width="54px">
+                    <zg-button action="editrecord">
+                        <zg-icon name="editrecord" slot="icon"></zg-icon>
+                    </zg-button>
+                </zg-column>
+                <zg-column index="name" header=" " editor="false" sort="disabled" cell-tooltip-text="Delete&nbsp;Version" cell-tooltip-type="system" cell-tooltip-position="left" width="54px">
+                    <zg-button action="removerecord" onClick="document.querySelector('#child').beforeDeleteDialog(event)">
+                        <zg-icon name="removerecord" slot="icon"></zg-icon>
+                    </zg-button>
+                </zg-column>
+            </zg-colgroup>
+        </zing-grid>
+    </div>
+</div>
