@@ -7,7 +7,10 @@ const
     Pacman = require('./api/Pacman'),
     Utils = require('./Utils'),
     Defaults = {
-        enabled: true,
+        enabled: false,
+        selectorHomeBtn: 'header > :first-child > :first-child > :first-child',
+        selectorPacmanBtn: 'header > :first-child > :last-child',
+        injectMode: 'prepend',
         protectedTags: [
             'latest'
         ]
@@ -33,8 +36,7 @@ class Plugin
         // noinspection JSCheckFunctionSignatures
         config.protectedTags = Array.from(new Set(Defaults.protectedTags.concat(config.protectedTags)));
 
-        this.enabled = config.enabled;
-        this.protectedTags = config.protectedTags;
+        this._config = config;
     }
 
     // noinspection JSUnusedGlobalSymbols
@@ -45,14 +47,14 @@ class Plugin
      */
     register_middlewares (app, auth, storage)
     {
-        if (!this.enabled) {
+        if (!this._config.enabled) {
             return;
         }
 
         ModuleLoader.register(app);
-        Injector.register(app, {protectedTags: this.protectedTags});
+        Injector.register(app, this._config);
         StaticFiles.register(app);
-        Pacman.register(app, storage, {protectedTags: this.protectedTags});
+        Pacman.register(app, storage, this._config);
     }
 }
 

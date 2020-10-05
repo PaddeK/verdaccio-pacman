@@ -9,14 +9,19 @@ class Pacman
     constructor ()
     {
         const
+            options = JSON.parse((document.querySelector('#pacman-options') || {}).value || '{}'),
             button = document.createElement('button'),
-            toolbarLeftSide = document.querySelector('header div[class*="LeftSide"]'),
-            homeButton = document.querySelector('a[class*="StyledLink"]');
+            toolbarLeftSide = document.querySelector(options.selectorPacmanBtn),
+            homeButton = document.querySelector(options.selectorHomeBtn);
+
+        this._options = options;
 
         button.setAttribute('class', 'pacman open');
         button.addEventListener('click', this._load.bind(this));
 
-        toolbarLeftSide.append(button);
+        options.injectMode === 'prepend' && toolbarLeftSide.prepend(button);
+        options.injectMode === 'append' && toolbarLeftSide.append(button);
+
         homeButton.addEventListener('click', () => location.assign('/'));
     }
 
@@ -41,12 +46,10 @@ class Pacman
     {
         document.querySelector('div.container.content').innerHTML = xhr.responseText;
 
-        const options = JSON.parse((document.querySelector('#pacman-options') || {}).value || '{}');
-
-        ZingGrid.registerCellType(TagType.TYPE, {renderer: TagType.renderer.bind(null, options)});
+        ZingGrid.registerCellType(TagType.TYPE, {renderer: TagType.renderer.bind(null, this._options)});
 
         new ListGrid(document, '#main', '#child');
-        new PackageGrid(document, '#main', '#child', options);
+        new PackageGrid(document, '#main', '#child', this._options);
     }
 }
 

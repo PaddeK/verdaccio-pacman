@@ -5,16 +5,21 @@ class Utils
 {
     /**
      * @param {object} config
-     * @return {{enabled: boolean, protectedTags: string[]}}
+     * @return {{enabled: boolean, protectedTags: string[], selectorHomeBtn: string, selectorPacmanBtn: string}}
      */
     static validateConfig (config)
     {
         config = typeof config === 'object' ? config : {};
 
-        Object.keys(config).forEach(k => !['enabled', 'protectedTags'].includes(k) && delete config[k]);
+        const fields = ['enabled', 'protectedTags', 'selectorHomeBtn', 'selectorPacmanBtn', 'injectMode'];
+
+        Object.keys(config).forEach(k => !fields.includes(k) && delete config[k]);
 
         typeof config.enabled !== 'boolean' && delete config.enabled;
         !Array.isArray(config.protectedTags) && delete config.protectedTags;
+        typeof config.selectorHomeBtn !== 'string' && delete config.selectorHomeBtn;
+        typeof config.selectorPacmanBtn !== 'string' && delete config.selectorPacmanBtn;
+        !['append', 'prepend'].includes(config.injectMode) && delete config.injectMode;
 
         return config;
     }
