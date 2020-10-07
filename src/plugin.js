@@ -11,6 +11,7 @@ const
         selectorHomeBtn: 'header > :first-child > :first-child > :first-child',
         selectorPacmanBtn: 'header > :first-child > :last-child',
         injectMode: 'prepend',
+        pageSize: 25,
         protectedTags: [
             'latest'
         ]

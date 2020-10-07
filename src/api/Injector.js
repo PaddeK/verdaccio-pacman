@@ -21,7 +21,7 @@ class Injector
     {
         const
             send = res.send.bind(res),
-            accept = req.headers.accept.split(',')
+            accept = (req.headers.accept || '').split(',')
 
         if (accept.includes(HTML_MIME)) {
             res.send = async data => {

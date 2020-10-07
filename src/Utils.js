@@ -11,15 +11,18 @@ class Utils
     {
         config = typeof config === 'object' ? config : {};
 
-        const fields = ['enabled', 'protectedTags', 'selectorHomeBtn', 'selectorPacmanBtn', 'injectMode'];
+        const fields = ['enabled', 'protectedTags', 'selectorHomeBtn', 'selectorPacmanBtn', 'injectMode', 'pageSize'];
 
         Object.keys(config).forEach(k => !fields.includes(k) && delete config[k]);
+
+        config.pageSize = ~~config.pageSize;
 
         typeof config.enabled !== 'boolean' && delete config.enabled;
         !Array.isArray(config.protectedTags) && delete config.protectedTags;
         typeof config.selectorHomeBtn !== 'string' && delete config.selectorHomeBtn;
         typeof config.selectorPacmanBtn !== 'string' && delete config.selectorPacmanBtn;
         !['append', 'prepend'].includes(config.injectMode) && delete config.injectMode;
+        ![5, 10, 15, 25, 50, 100].includes(config.pageSize) && delete config.pageSize;
 
         return config;
     }

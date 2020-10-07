@@ -48,7 +48,7 @@ class Pacman
 
         ZingGrid.registerCellType(TagType.TYPE, {renderer: TagType.renderer.bind(null, this._options)});
 
-        new ListGrid(document, '#main', '#child');
+        new ListGrid(document, '#main', '#child', this._options);
         new PackageGrid(document, '#main', '#child', this._options);
     }
 }

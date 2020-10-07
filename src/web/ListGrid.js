@@ -7,13 +7,15 @@ class ListGrid
      * @param {object} doc
      * @param {string} mainId
      * @param {string} childId
+     * @param {object} options
      */
-    constructor (doc, mainId, childId)
+    constructor (doc, mainId, childId, options)
     {
         this._el = doc.querySelector(mainId);
         this._child = doc.querySelector(childId);
         this._doc = doc;
 
+        this._el.setPageSize(options.pageSize);
         this._el.executeOnLoad(() => this._el.addEventListener('record:click', this._onRecordClick.bind(this)));
     }
 
